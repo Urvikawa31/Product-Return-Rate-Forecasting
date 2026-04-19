@@ -1,0 +1,25 @@
+{
+    "Data Overview (Collection)": {
+        "Processing Time": "916.3 ms",
+        "Output Dimensions": "1,067,371 records"
+    },
+    "Data Overview (Analysis)": {
+        "Processing Time": "1.0 sec",
+        "Output Dimensions": "106 patterns"
+    },
+    "Data Preprocessing": {
+        "Processing Time": "2.9 sec",
+        "Output Dimensions": "156 features"
+    },
+    "Feature Extraction": {
+        "Processing Time": "25.6 ms",
+        "Output Dimensions": "31 features"
+    },
+    "Model Training (Sequence Prep)": {
+        "Processing Time": "0.5 ms",
+        "Output Dimensions": "515 sequences"
+    },
+    "Total Pipeline": {
+        "Processing Time": "4.8 sec"
+    }
+}

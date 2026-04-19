@@ -1,0 +1,6 @@
+Metric,Value,Description
+Total Transactions,"1,067,371",Complete purchase records with return outcomes
+Unique Users,"5,942",Individual customers across analysis period
+Product Categories,7,Distinct product classifications
+Return Rate,2.2%,Overall proportion of returned purchases
+Data Period,24.6 months,Temporal coverage for trend analysis
