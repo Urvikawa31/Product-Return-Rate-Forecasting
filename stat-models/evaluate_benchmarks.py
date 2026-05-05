@@ -61,38 +61,68 @@ def main():
     
     print(f"Formatted report saved to {txt_path}")
     
-    # --- VISUALIZATION: Actual vs Top 3 Models ---
     import matplotlib.pyplot as plt
+    if not os.path.exists('scratch/plots'):
+        os.makedirs('scratch/plots')
+
+    # ---------------------------------------------------------
+    # --- VISUALIZATION 1: Basic Models vs Actual ---
+    # ---------------------------------------------------------
     plt.figure(figsize=(15, 7))
-    plt.plot(actual[-50:], label='Actual', color='black', linewidth=2, marker='o') # Last 50 days for clarity
+    plt.plot(actual[-30:], label='Actual', color='black', linewidth=2, marker='o') # Last 50 days for clarity
     
-    # Plot top 3 models
-    top_models = results_df.head(3)['Model'].tolist()
-    colors = ['#1f77b4', '#ff7f0e', '#2ca02c']
+    basic_models = ['Seasonal Naive (s=7)', 'Moving Average (SMA-7)', 'Weighted MA', 'AR(2)', 'MA(2)', 'ARMA(2,2)']
+    colors1 = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#8c564b']
     
-    for i, model_name in enumerate(top_models):
-        forecast = np.array(data[model_name])
-        plt.plot(forecast[-50:], label=model_name, linestyle='--', color=colors[i])
-        
-    plt.title("Product Return Rate Forecasting: Top 3 Models vs Actual (Last 50 Days)")
+    for i, model_name in enumerate(basic_models):
+        if model_name in data:
+            forecast = np.array(data[model_name])
+            plt.plot(forecast[-30:], label=model_name, linestyle='--', color=colors1[i % len(colors1)])
+            
+    plt.title("Product Return Rate Forecasting: Basic Models vs Actual (Last 30 Days)")
+    plt.xlabel("Days in Test Set")
+    plt.ylabel("Return Rate")
+    plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
+    plt.grid(True, alpha=0.3)
+    plt.tight_layout()
+    
+    plot1_path = 'scratch/plots/forecast_comparison_basic.png'
+    plt.savefig(plot1_path)
+    plt.close()
+    print(f"Basic Comparison plot saved to {plot1_path}")
+
+    # ---------------------------------------------------------
+    # --- VISUALIZATION 2: Advanced Models (ARIMA/SARIMA) vs Actual ---
+    # ---------------------------------------------------------
+    plt.figure(figsize=(15, 7))
+    plt.plot(actual[-30:], label='Actual', color='black', linewidth=2, marker='o') # Last 30 days for clarity
+    
+    advanced_models = ['ARIMA_Optimal (Rolling)', 'SARIMA_Optimal']
+    colors2 = ['#d62728', '#1f77b4'] # Red and Blue
+    
+    for i, model_name in enumerate(advanced_models):
+        if model_name in data:
+            forecast = np.array(data[model_name])
+            plt.plot(forecast[-30:], label=model_name, linestyle='--', color=colors2[i % len(colors2)])
+            
+    plt.title("Product Return Rate Forecasting: ARIMA & SARIMA vs Actual (Last 30 Days)")
     plt.xlabel("Days in Test Set")
     plt.ylabel("Return Rate")
     plt.legend()
     plt.grid(True, alpha=0.3)
     
-    if not os.path.exists('scratch/plots'):
-        os.makedirs('scratch/plots')
-    
-    plot_path = 'scratch/plots/forecast_comparison_top3.png'
-    plt.savefig(plot_path)
+    plot2_path = 'scratch/plots/forecast_comparison_advanced.png'
+    plt.savefig(plot2_path)
     plt.close()
-    print(f"Comparison plot saved to {plot_path}")
-    
+    print(f"Advanced Comparison plot saved to {plot2_path}")
+
     # --- VISUALIZATION: Error Distribution ---
     plt.figure(figsize=(10, 6))
-    for i, model_name in enumerate(top_models):
-        error = actual - np.array(data[model_name])
-        plt.hist(error, bins=30, alpha=0.5, label=model_name)
+    plot_models = ['SARIMA_Optimal', 'ARIMA_Optimal (Rolling)', 'Seasonal Naive (s=7)']
+    for i, model_name in enumerate(plot_models):
+        if model_name in data:
+            error = actual - np.array(data[model_name])
+            plt.hist(error, bins=30, alpha=0.5, label=model_name)
     plt.axvline(0, color='red', linestyle='--')
     plt.title("Forecast Error Distribution")
     plt.legend()

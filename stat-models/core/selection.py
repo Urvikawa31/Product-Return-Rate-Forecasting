@@ -6,7 +6,7 @@ import warnings
 
 warnings.filterwarnings('ignore')
 
-def find_best_arima(train, max_p=3, max_q=3, d=None):
+def find_best_arima(train, max_p=5, max_q=5, d=None):
     """Grid search for best ARIMA parameters using AIC."""
     print("\n--- Model Selection: ARIMA ---")
     if d is None:

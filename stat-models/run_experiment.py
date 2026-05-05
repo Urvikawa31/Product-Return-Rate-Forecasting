@@ -7,7 +7,7 @@ from core.data_loader import load_and_split_data
 from models.naive_persistence import run_naive_forecast
 from models.moving_averages import run_sma_forecast, run_wma_forecast
 from models.ar_ma_processes import run_ar_forecast, run_ma_forecast, run_arma_forecast
-from models.integrated_models import run_arima_forecast, run_sarima_forecast
+from models.integrated_models import run_arima_forecast, run_sarima_forecast, run_rolling_arima_forecast
 from core.diagnostics import check_stationarity, plot_identification, residual_analysis
 from core.selection import find_best_arima, find_best_sarima
 from statsmodels.tsa.statespace.sarimax import SARIMAX
@@ -34,19 +34,20 @@ def main():
     plot_identification(work_series, "Stationary_Series")
     
     # 3. Model Selection via AIC (Workflow Step 3)
-    best_arima_order = find_best_arima(train, max_p=3, max_q=3, d=d)
+    best_arima_order = find_best_arima(train, max_p=5, max_q=5, d=d)
     best_sarima_params = find_best_sarima(train, max_p=2, max_q=2, d=d, D=1, s=7)
     
     # 4. Running Models
+    print("\nRunning Models (This may take a moment for Rolling ARIMA)...")
     forecasts = {
         'Actual': test.values.tolist(),
-        'Naive Baseline': run_naive_forecast(train, test_len).tolist(),
-        'Moving Average (SMA-7)': run_sma_forecast(train, test_len).tolist(),
-        'Weighted MA': run_wma_forecast(train, test_len).tolist(),
-        'AR(2)': run_ar_forecast(train, test_len).tolist(),
-        'MA(2)': run_ma_forecast(train, test_len).tolist(),
-        'ARMA(2,2)': run_arma_forecast(train, test_len).tolist(),
-        'ARIMA_Optimal': run_arima_forecast(train, test_len, order=best_arima_order).tolist(),
+        'Seasonal Naive (s=7)': run_naive_forecast(train, test_len, s=7).tolist(),
+        'Moving Average (SMA-7)': run_sma_forecast(train, test).tolist(),
+        'Weighted MA': run_wma_forecast(train, test).tolist(),
+        'AR(2)': run_ar_forecast(train, test).tolist(),
+        'MA(2)': run_ma_forecast(train, test).tolist(),
+        'ARMA(2,2)': run_arma_forecast(train, test).tolist(),
+        'ARIMA_Optimal (Rolling)': run_rolling_arima_forecast(train, test, order=best_arima_order).tolist(),
         'SARIMA_Optimal': run_sarima_forecast(train, test_len, order=best_sarima_params[0], s_order=best_sarima_params[1]).tolist()
     }
     

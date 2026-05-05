@@ -12,11 +12,16 @@ def calculate_omc(y_true, y_pred):
     return under_cost + over_cost
 
 def calculate_mape(y_true, y_pred):
-    """Mean Absolute Percentage Error"""
+    """
+    Weighted Mean Absolute Percentage Error (WMAPE/WAPE).
+    More robust for return rate forecasting where actuals can be zero or very small.
+    Formula: (sum|y_true - y_pred| / sum|y_true|) * 100
+    """
     y_true, y_pred = np.array(y_true), np.array(y_pred)
-    # Avoid division by zero by adding a small epsilon or filtering
-    mask = y_true != 0
-    return np.mean(np.abs((y_true[mask] - y_pred[mask]) / y_true[mask])) * 100
+    sum_actual = np.sum(np.abs(y_true))
+    if sum_actual == 0:
+        return 0.0 if np.sum(np.abs(y_pred)) == 0 else np.inf
+    return (np.sum(np.abs(y_true - y_pred)) / sum_actual) * 100
 
 def calculate_nmse(y_true, y_pred):
     """Normalized Mean Squared Error (normalized by variance of actuals)"""

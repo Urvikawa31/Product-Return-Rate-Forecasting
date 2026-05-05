@@ -13,12 +13,13 @@ def calculate_business_impact(csv_path='scratch/benchmark_comparison.csv', outpu
     # Load results
     df = pd.read_csv(csv_path)
     
-    # Identify Naive Baseline
-    if 'Naive Baseline' not in df['Model'].values:
-        print("Error: 'Naive Baseline' not found in results for comparison.")
+    # Identify Baseline (using Seasonal Naive as the new standard)
+    baseline_model = 'Seasonal Naive (s=7)'
+    if baseline_model not in df['Model'].values:
+        print(f"Error: '{baseline_model}' not found in results for comparison.")
         return
         
-    baseline_omc = df[df['Model'] == 'Naive Baseline']['OMC (Cost)'].values[0]
+    baseline_omc = df[df['Model'] == baseline_model]['OMC (Cost)'].values[0]
     
     # Constants
     weeks = test_days / 7
