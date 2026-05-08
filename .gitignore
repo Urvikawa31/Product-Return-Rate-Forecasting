@@ -1,3 +1,7 @@
+Data/
+__pycache__/
+02_Data_Preprocessing/cleaned_weekly_returns.csv
+03_Feature_Extraction/features_return_rate.csv
 venv/
 __pycache__/
 data/

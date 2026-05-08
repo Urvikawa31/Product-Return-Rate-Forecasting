@@ -1,0 +1,7 @@
+Stage,Processing Time,Output Dimensions
+Data Overview (Collection),916.3 ms,"1,067,371 records"
+Data Preprocessing,2.9 sec,156 features
+Model Training (Sequence Prep),0.0 ms,515 sequences
+Data Overview (Analysis),1.0 sec,106 patterns
+Feature Extraction,25.6 ms,31 features
+Total Pipeline,4.8 sec

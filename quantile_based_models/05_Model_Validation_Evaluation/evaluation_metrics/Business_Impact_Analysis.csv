@@ -1,0 +1,6 @@
+Model,Avoided Weekly Loss ($),Logistics Efficiency (%),Annualized ROI (%)
+TCN,282.89,-24.56,1371.05
+LSTM,179.53,-48.99,833.55
+MLP,18.65,-93.4,-3.0
+GRU,-395.14,-210.47,-2154.74
+RNN,-787.04,-343.61,-4192.6

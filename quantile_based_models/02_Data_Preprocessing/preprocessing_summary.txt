@@ -1,0 +1,4 @@
+Initial Rows: 1067371
+Initial Nulls: 247389
+Final Weekly Rows: 728
+Categories Found: ['Holiday', 'Home Decor', 'Bags & Storage', 'Miscellaneous', 'Kitchenware', 'Gifts & Stationery', 'Apparel & Accessories']

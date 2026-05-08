@@ -1,0 +1,5 @@
+Quality Metric,Before Preprocessing,After Preprocessing,Improvement
+Missing Value Rate,2.9%,2.2%,22.8% reduction
+Duplicate Records,"34,335",0,100.0% reduction
+Outlier Percentage,0.1%,0.1%,10.8% reduction
+Feature Completeness,85.0%,98.5%,15.9% improvement
